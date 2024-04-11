@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from werkzeug.security import check_password_hash, generate_password_hash
 from database.models.user import User
 from database.database import db
+from flask_login import login_user
 
 home_route = Blueprint('home', __name__)
 
@@ -27,8 +28,9 @@ def login():
   user = User.query.filter_by(user_email = email).first()
 
   if user and check_password_hash(user.user_password, password):
-    session['user_id'] = user.user_id
-    session['user_name'] = user.user_name 
+    login_user(user)
+    #session['user_id'] = user.user_id
+    #session['user_name'] = user.user_name 
     return redirect(url_for('user.page_user', user_id = user.user_id))
   else:
     return render_template('form_login_erro.html')
