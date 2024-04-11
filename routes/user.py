@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template
+from flask_login import login_required
+
 
 user_route = Blueprint('user', __name__)
 
 @user_route.route('/')
+@login_required
 def page_user(user_id):
-  # Rota para a página inicial do usuário.
-  return render_template('user.html')
+    # Rota para a página inicial do usuário.
+    
+    return render_template('user.html')
 
 @user_route.route('/transaction/')
 def all_transaction(user_id):
